@@ -2,8 +2,9 @@
 
 $output = "";
 $stopdisplay = false;
-
-
+$parameterS = false;
+$parameterN = false;
+$parameterE = false;
 
 if(in_array("-h", $argv) || in_array("--help", $argv)) {
     help();
@@ -25,15 +26,15 @@ for ($index = 1; $index < sizeof($argv); $index++) {
         switch($argument) {
             case "--no-space":
             case "-s":
-                $output = nstr_replace(" ","", $output);
+                $parameterS = true;
                 break;
             case "--newline":
             case "--n":
-                $output = str_replace("\\n", "\n", $output);
+                $parameterN = true;
                 break;
             case "--escape":
             case "-e":
-                $output = stripcslashes($output);
+                $parameterE = true;
                 break;
             default:
                 $output.=$argument." ";
@@ -41,7 +42,21 @@ for ($index = 1; $index < sizeof($argv); $index++) {
     }
 }
 
+if($parameterS) {
+    $output = str_replace(" ","", $output);
+}
+
+if($parameterN) {
+    $output = str_replace("\\n", "\n", $output);
+}
+
+if($parameterE) {
+    $output = stripcslashes($output);
+}
+
 echo $output;
+
+
 
 function help() {
     echo "\n";
